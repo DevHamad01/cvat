@@ -30,10 +30,10 @@ each line with evidence. A box without evidence counts as unticked.
       all 8109; unknown type returns 400. Reason: the sample data contains exactly these
       two types, and masks are the COCO crowd regions.
 - [x] Decision record written in docs/plan.md.
-
-## Not tested
 - [x] Task list item 8: live update over WebSocket. Evidence: with the page open, adding and removing a rectangle in task 2 each produced a `{"changed": true}` message and the graph updated without a reload (DevTools, Network, Socket).
 - [x] Task list item 9: reconnect after a dropped connection. Evidence: after `docker restart cvat_server` the page opened a new socket (status 101) by itself, and the next add and remove updated the graph.
+
+## Not tested
 - The page was not checked against a task with tracks or tags; a task with more than a few
   thousand shapes; the page when served by the production UI image (only the webpack
   dev server on port 3000 was used, since the UI image was not rebuilt).
