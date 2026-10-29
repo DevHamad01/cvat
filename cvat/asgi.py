@@ -39,3 +39,15 @@ if debug.is_debugging_enabled():
             return await super().handle(*args, **kwargs)
 
     application = DebuggerApp()
+
+
+from cvat.apps.test.ws import websocket_application  # noqa: E402
+
+django_application = application
+
+
+async def application(scope, receive, send):
+    if scope["type"] == "websocket":
+        await websocket_application(scope, receive, send)
+    else:
+        await django_application(scope, receive, send)

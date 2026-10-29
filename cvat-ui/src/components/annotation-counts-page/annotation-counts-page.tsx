@@ -31,6 +31,8 @@ interface CountsResponse {
 }
 
 const BAR_HEIGHT_PX = 22;
+const RECONNECT_BASE_MS = 1000;
+const RECONNECT_MAX_MS = 15000;
 
 const SHAPE_TYPE_OPTIONS = [
     { value: 'all', label: 'All shape types' },
@@ -45,8 +47,11 @@ function AnnotationCountsPage(): JSX.Element {
     const [fetching, setFetching] = useState(true);
     const [shapeType, setShapeType] = useState('all');
 
-    const load = useCallback(async () => {
-        setFetching(true);
+    // silent=true keeps the current graph on screen while refreshing after a live update
+    const load = useCallback(async (silent = false) => {
+        if (!silent) {
+            setFetching(true);
+        }
         setError(null);
         try {
             const query = shapeType === 'all' ? '' : `?type=${shapeType}`;
@@ -69,6 +74,49 @@ function AnnotationCountsPage(): JSX.Element {
         load();
     }, [load]);
 
+    useEffect(() => {
+        let socket: WebSocket | null = null;
+        let timer: number | null = null;
+        let attempt = 0;
+        let closedByUs = false;
+
+        const connect = (): void => {
+            const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+            socket = new WebSocket(
+                `${scheme}://${window.location.host}/api/test/ws/tasks/${tid}/annotation-counts`,
+            );
+            socket.onopen = () => {
+                if (attempt > 0) {
+                    // the connection was down, so changes may have been missed
+                    load(true);
+                }
+                attempt = 0;
+            };
+            socket.onmessage = () => {
+                load(true);
+            };
+            socket.onclose = () => {
+                if (closedByUs) {
+                    return;
+                }
+                const delay = Math.min(RECONNECT_BASE_MS * 2 ** attempt, RECONNECT_MAX_MS);
+                attempt += 1;
+                timer = window.setTimeout(connect, delay);
+            };
+        };
+
+        connect();
+        return () => {
+            closedByUs = true;
+            if (timer !== null) {
+                window.clearTimeout(timer);
+            }
+            if (socket) {
+                socket.close();
+            }
+        };
+    }, [tid, load]);
+
     let content: JSX.Element;
     if (fetching) {
         content = <CVATLoadingSpinner />;
@@ -79,7 +127,7 @@ function AnnotationCountsPage(): JSX.Element {
                 showIcon
                 message='Could not load annotation counts'
                 description={error}
-                action={<Button onClick={load}>Retry</Button>}
+                action={<Button onClick={() => load()}>Retry</Button>}
             />
         );
     } else if (!data || data.counts.length === 0) {

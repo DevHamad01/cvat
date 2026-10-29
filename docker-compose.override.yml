@@ -4,3 +4,4 @@ services:
       - ./cvat/apps/test:/opt/cvat/cvat/apps/test:ro
       - ./cvat/settings/base.py:/opt/cvat/cvat/settings/base.py:ro
       - ./cvat/urls.py:/opt/cvat/cvat/urls.py:ro
+      - ./cvat/asgi.py:/opt/cvat/cvat/asgi.py:ro
