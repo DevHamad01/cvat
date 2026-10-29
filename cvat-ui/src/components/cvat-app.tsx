@@ -36,6 +36,7 @@ import JobsPageComponent from 'components/jobs-page/jobs-page';
 import ModelsPageComponent from 'components/models-page/models-page';
 
 import TasksPageContainer from 'containers/tasks-page/tasks-page';
+import AnnotationCountsPage from 'components/annotation-counts-page/annotation-counts-page';
 import CreateTaskPageContainer from 'containers/create-task-page/create-task-page';
 import TaskPageComponent from 'components/task-page/task-page';
 
@@ -568,6 +569,7 @@ class CVATApplication extends React.PureComponent<CVATAppProps & RouteComponentP
                                         <Route exact path='/tasks/:id' component={TaskPageComponent} />
                                         <Route exact path='/tasks/:tid/quality-control' component={QualityControlPage} />
                                         <Route exact path='/tasks/:tid/analytics' component={AnalyticsReportPage} />
+                                        <Route exact path='/tasks/:tid/annotation-counts' component={AnnotationCountsPage} />
                                         <Route exact path='/tasks/:tid/consensus' component={ConsensusManagementPage} />
                                         <Route exact path='/tasks/:id/jobs/create' component={CreateJobPage} />
                                         <Route exact path='/tasks/:id/guide' component={AnnotationGuidePage} />
