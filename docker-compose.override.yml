@@ -3,3 +3,4 @@ services:
     volumes:
       - ./cvat/apps/test:/opt/cvat/cvat/apps/test:ro
       - ./cvat/settings/base.py:/opt/cvat/cvat/settings/base.py:ro
+      - ./cvat/urls.py:/opt/cvat/cvat/urls.py:ro
