@@ -36,13 +36,12 @@ Per-class annotation counts for a CVAT task: API endpoint, page, graph.
 - Item 7 (shape type filter) was done before the speed measurement; the order of
   steps 7 and 8 above was swapped. Reason: the filter was quick and the measurement
   is more meaningful once the endpoint is final.
-- The task list items 8 and 9 (WebSocket) are still not done. See "Not done" in
-  docs/definition-of-done.md.
+- (Superseded: items 8 and 9 were done later, see the WebSocket section at the end.) Earlier text said: not done.
 
 ## Decision record
 
 ### 1. How custom backend code reaches the running server
-- Taken: mount `cvat/apps/test`, `cvat/settings/base.py` and `cvat/urls.py` into the
+- Taken: mount `cvat/apps/test`, `cvat/settings/base.py`, `cvat/urls.py` and `cvat/asgi.py` into the
   stock `cvat_server` container with `docker-compose.override.yml`.
 - Rejected: building the server image from source with `docker-compose.dev.yml`.
 - Cost of rejecting: the container now depends on the stock image matching my
