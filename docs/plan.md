@@ -74,3 +74,8 @@ Per-class annotation counts for a CVAT task: API endpoint, page, graph.
 - Taken: `chart.js` and `react-chartjs-2`, which were already dependencies of cvat-ui.
 - Rejected: adding a new chart library.
 - Cost of rejecting: less styling freedom; bars show no count labels.
+
+## Pull request
+Opened inside my own fork: https://github.com/DevHamad01/cvat/pull/1 (head `dev-test01`,
+base `develop`). The task says "main of your own fork", but the fork has no `main`
+branch; its default branch is `develop`, so that is the base.
