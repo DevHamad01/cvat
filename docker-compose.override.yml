@@ -1,0 +1,5 @@
+services:
+  cvat_server:
+    volumes:
+      - ./cvat/apps/test:/opt/cvat/cvat/apps/test:ro
+      - ./cvat/settings/base.py:/opt/cvat/cvat/settings/base.py:ro
