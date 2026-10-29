@@ -79,3 +79,12 @@ Per-class annotation counts for a CVAT task: API endpoint, page, graph.
 Opened inside my own fork: https://github.com/DevHamad01/cvat/pull/1 (head `dev-test01`,
 base `develop`). The task says "main of your own fork", but the fork has no `main`
 branch; its default branch is `develop`, so that is the base.
+
+## WebSocket (task list items 8 and 9), added after the first plan
+This supersedes the "Skipping" section above: items 8 and 9 were done after all.
+Taken: a WebSocket in `cvat/asgi.py` that sends only a change signal, polling
+the database every 2 seconds; the page refetches over the protected HTTP endpoint and reconnects
+with exponential backoff (1 s up to 15 s). Rejected: sending counts over the socket, which would
+need a copy of CVAT's permission check outside an HTTP request. Cost: up to a 2 second delay, and
+the socket checks login but not task access. Also rejected: Django signals plus Redis, because
+bulk saves may not fire them.

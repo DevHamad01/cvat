@@ -31,13 +31,18 @@ each line with evidence. A box without evidence counts as unticked.
       two types, and masks are the COCO crowd regions.
 - [x] Decision record written in docs/plan.md.
 
-## Not done
-- [ ] Task list item 8: live update over WebSocket. Not started.
-- [ ] Task list item 9: reconnect after a dropped connection. Not started.
-  Reason: time went to setup problems (disk full, Docker crash) and to items 1 to 7.
-- Not tested: the page against a task with tracks or tags; a task with more than a few
+## Not tested
+- [x] Task list item 8: live update over WebSocket. Evidence: with the page open, adding and removing a rectangle in task 2 each produced a `{"changed": true}` message and the graph updated without a reload (DevTools, Network, Socket).
+- [x] Task list item 9: reconnect after a dropped connection. Evidence: after `docker restart cvat_server` the page opened a new socket (status 101) by itself, and the next add and remove updated the graph.
+- The page was not checked against a task with tracks or tags; a task with more than a few
   thousand shapes; the page when served by the production UI image (only the webpack
   dev server on port 3000 was used, since the UI image was not rebuilt).
+
+## Known limits of the WebSocket
+- The socket only sends a change signal; the data is fetched again over HTTP, which keeps the 401 and 403 checks.
+- The socket checks that the user is logged in and the task exists, but not task-level access (OPA). A logged-in user without access can learn that counts changed, not the counts.
+- The server polls the database every 2 seconds, so an update arrives within about 2 to 4 seconds.
+- Only the webpack dev server on port 3000 was used. Its console shows CVAT's own POST /api/events 403 errors (CSRF on another origin), unrelated to this feature.
 
 ## Housekeeping
 - [x] No dead code, no commented-out blocks, no stray files in the diff. Evidence: `git diff --stat 4a09e27ff..HEAD` lists 14 files, all intended; no Python line over 100 characters.
