@@ -47,4 +47,4 @@ each line with evidence. A box without evidence counts as unticked.
 ## Housekeeping
 - [x] No dead code, no commented-out blocks, no stray files in the diff. Evidence: `git diff --stat 4a09e27ff..HEAD` lists 14 files, all intended; no Python line over 100 characters.
 - [x] PR is opened inside my own fork, not against cvat-ai/cvat. Evidence: https://github.com/DevHamad01/cvat/pull/1
-- [ ] Loom is 5 minutes or less and answers K1 to K4.
+- [x] Loom is 5 minutes or less and answers K1 to K4. Evidence: 4 min 22 s, https://www.loom.com/share/dd67edcb9abf4431994ee01ab49fe40f
