@@ -45,6 +45,6 @@ each line with evidence. A box without evidence counts as unticked.
 - Only the webpack dev server on port 3000 was used. Its console shows CVAT's own POST /api/events 403 errors (CSRF on another origin), unrelated to this feature.
 
 ## Housekeeping
-- [x] No dead code, no commented-out blocks, no stray files in the diff. Evidence: `git diff --stat 4a09e27ff..HEAD` lists 14 files, all intended; no Python line over 100 characters.
+- [x] No dead code, no commented-out blocks, no stray files in the diff. Evidence: `git diff --stat 4a09e27ff..HEAD` listed 14 files when checked, and lists 17 after the WebSocket work (it added ws.py, asgi.py and webpack.config.js); all intended; no Python line over 100 characters in cvat/apps/test.
 - [x] PR is opened inside my own fork, not against cvat-ai/cvat. Evidence: https://github.com/DevHamad01/cvat/pull/1
 - [x] Loom is 5 minutes or less and answers K1 to K4. Evidence: 4 min 22 s, https://www.loom.com/share/dd67edcb9abf4431994ee01ab49fe40f
